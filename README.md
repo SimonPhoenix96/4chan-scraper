@@ -12,6 +12,6 @@ An image scraper written in Python.
 
 - Local (Relative) Paths:
   - `output`
-  - `output/'
+  - `output/`
 - Absolute Paths:
   - `/Users/grayson/Pictures/4chan`
