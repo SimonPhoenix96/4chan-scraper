@@ -6,6 +6,8 @@ from re import sub
 
 
 def download_file(url, dest_dir, filename=None):
+    # If no specific filename is provided, use the filename as
+    # exists on the URL path
     if(filename == None):
         filename = urlsplit(url).path.split("/")[-1]
     urlretrieve(url, dest_dir + "/" + filename)
@@ -19,6 +21,7 @@ def get_file_urls(soup):
         file_urls.append(sub("//", "http://", anchor.get('href')))
 
     return file_urls
+
 
 def get_filenames(soup):
     filenames = []
@@ -48,6 +51,7 @@ def main():
         dest_dir = sys.argv[2]
 
         html = urlopen(url).read().decode('utf-8')
+        # Beautiful soup allows for easy document navigation
         soup = BeautifulSoup(html, "html.parser")
 
         file_urls = get_file_urls(soup)
