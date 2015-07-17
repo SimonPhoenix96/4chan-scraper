@@ -7,6 +7,7 @@ An image scraper written in Python.
 - Make sure to install dependencies (BeautifulSoup4):
   - `sudo pip3 install -r requirements.txt`
 - Run `python3 scraper.py <thread url> <output directory>`
+- Remember, the directory must exist to put files in it!
 
 ### Output Directory Formatting Examples:
 
