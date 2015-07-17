@@ -37,7 +37,8 @@ def main():
     print("4chan Image Scraper by Grayson Pike")
 
     if(len(sys.argv) != 3):
-        print("Usage: python3 scraper.py <url> <dest directory>")
+        print("Usage: python3 scraper.py <thread url> <dest directory>")
+        print("See: https://github.com/Grayson112233/python-4chan-scraper")
 
     else:
         # First argument is the thread URL
