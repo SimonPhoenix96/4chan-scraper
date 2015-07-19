@@ -72,6 +72,7 @@ def main():
         # ex. /Users/graysonpike/Desktop/4chan
         dest_dir = sys.argv[3]
 
+        print("Downloading images from " + url + " ...")
         html = urlopen(url).read().decode('utf-8')
         # Beautiful soup allows for easy document navigation
         soup = BeautifulSoup(html, "html.parser")
@@ -80,6 +81,7 @@ def main():
         filenames = get_filenames(soup)
 
         for i in range(len(file_urls)):
+            print("Downloading File: " + filenames[i])
             download_file(file_urls[i], dest_dir, filenames[i])
 
     elif(sys.argv[1] == "board"):
