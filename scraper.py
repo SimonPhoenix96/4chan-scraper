@@ -15,6 +15,7 @@ def get_board_threads(url):
     # BeautifulSoup cannot work with this because the respose
     # is acctually a JSON object (I belive)
     html = urlopen(url).read().decode('utf-8')
+    # '":{"date"' is the only unique pattern found near each thread ID
     indicies = [x.start() for x in finditer('":{"date"', html)]
     for indice in indicies:
         thread_id = ""
