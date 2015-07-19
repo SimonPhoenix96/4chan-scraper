@@ -8,8 +8,12 @@ from re import sub, finditer
 def get_board_threads(url):
 
     thread_ids = []
-
     # Get URLs of all active threads of a board
+    # I understand that this code is very hacked together
+    # the while loop reads from an identifiable section of
+    # the HTML backwards to the end of each thread ID.
+    # BeautifulSoup cannot work with this because the respose
+    # is acctually a JSON object (I belive)
     html = urlopen(url).read().decode('utf-8')
     indicies = [x.start() for x in finditer('":{"date"', html)]
     for indice in indicies:
@@ -20,6 +24,8 @@ def get_board_threads(url):
             counter += 1
         thread_ids.append(thread_id)
     print(thread_ids)
+    # Omit the first post, because it's always a
+    # mod's sticky for the board
     return thread_ids[1:]
 
 
