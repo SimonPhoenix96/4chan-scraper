@@ -1,9 +1,10 @@
 import sys
-from bs4 import BeautifulSoup
-from urllib.request import urlretrieve, urlopen
-from urllib.parse import urlsplit
+import os
+import requests
 from re import sub, finditer
-
+from bs4 import BeautifulSoup
+from io import BytesIO
+from PIL import Image
 
 def get_board_threads(url):
 
@@ -14,7 +15,7 @@ def get_board_threads(url):
     # the HTML backwards to the end of each thread ID.
     # BeautifulSoup cannot work with this because the respose
     # is actually a JSON object (I belive)
-    html = urlopen(url).read().decode('utf-8')
+    html = requests.get(url).text
     # '":{"date"' is the only unique pattern found near each thread ID
     indicies = [x.start() for x in finditer('":{"date"', html)]
     for indice in indicies:
@@ -35,7 +36,10 @@ def download_file(url, dest_dir, filename=None):
     # exists on the URL path
     if(filename is None):
         filename = urlsplit(url).path.split("/")[-1]
-    urlretrieve(url, dest_dir + "/" + filename)
+
+    request = requests.get(url)
+    image = Image.open(BytesIO(request.content))
+    image.save(os.path.join(dest_dir, filename))
 
 
 def get_file_urls(soup):
@@ -73,7 +77,7 @@ def main():
         dest_dir = sys.argv[3]
 
         print("Downloading images from " + url + " ...")
-        html = urlopen(url).read().decode('utf-8')
+        html = requests.get(url).text
         # Beautiful soup allows for easy document navigation
         soup = BeautifulSoup(html, "html.parser")
 
@@ -94,7 +98,7 @@ def main():
         for thread in thread_ids:
             print("Downloading thread (id: " + thread + ") @: http://boards.4chan.org/" + board + "/thread/" + thread)
             url = "http://boards.4chan.org/" + board + "/thread/" + thread
-            html = urlopen(url).read().decode('utf-8')
+            html = requests.get(url).text
             # Beautiful soup allows for easy document navigation
             soup = BeautifulSoup(html, "html.parser")
             file_urls = get_file_urls(soup)
@@ -103,7 +107,7 @@ def main():
                 download_file(file_urls[i], dest_dir, filenames[i])
 
     else:
-        print("Usage: python3 scraper.py <'thread' or 'board'> <thread url> <dest directory>")
+        print("Usage: python3 scraper.py <'thread' or 'board'> <thread url or board letter> <dest directory>")
         print("See: https://github.com/Grayson112233/python-4chan-scraper")
 
 

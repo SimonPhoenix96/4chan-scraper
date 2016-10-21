@@ -12,9 +12,11 @@ An image scraper written in Python.
   - eg. `python3 scraper.py thread http://boards.4chan.org/g/thread/49098915 output`
 - Remember, the directory must exist to put files in it!
 
+NOTE: If you experience an error installing Pillow with pip3, try installing the `libjpeg8-dev` package.
+
 ### Output Directory Formatting Examples:
 
-- Local (Relative) Paths:
+- Relative Paths:
   - `output`
   - `output/`
 - Absolute Paths:
