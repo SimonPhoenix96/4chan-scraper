@@ -7,7 +7,9 @@ basically changed graysonpikes code to scrape only original post data in a board
 
 # Usage
 4chan-scraper.py [boardA,boardB...] 
+
 e.g.
+
 4chan-scraper.py wsg tv v
 
 # 4chan-thread-collector
@@ -16,5 +18,7 @@ monitors and logs url status of threads, if dead it'll replace the url with a yu
 # Usage 
 
 4chan-thread-collector.py [thread_url]  [logged_threads_path json.file]
+
 e.g.
+
 4chan-thread-collector.py https://boards.4chan.org/wsg/thread/2358343  D:\4chan-thread-collector\bump-threads.json
