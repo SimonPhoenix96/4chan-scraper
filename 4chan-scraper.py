@@ -96,7 +96,7 @@ def get_thread_posts(thread_html):
     op_post_parsed = False
     
     for post in thread_html:
-
+        # try:
         # # fileText html parsing 
         file_html =  post.find(attrs={'class': 'fileText'})
         file_url = ""
@@ -143,14 +143,15 @@ def get_thread_posts(thread_html):
                 post_message = " "
             else:
                 # message
-                for line in temp_post_message.contents[0:len_post_message]:
+                for line in temp_post_message.contents:
+                    # print(line)
                     quotelink = re.search('">(.*)</a>', str(line))
                     # print(quotelink)
 
                     if quotelink != None:
                         line = quotelink.group(1).replace("&gt;&gt;", ">>") + "\n"
                     
-                    post_message = post_message + ''.join(line).replace("\u2019", "'")
+                    post_message = post_message + ''.join(str(line)).replace("\u2019", "'").replace('<span class="quote">&gt;', ">").replace('<br/>', "\n").replace('</span>', "")
 
         posts['reply'].append({ "post_type" : post_type,
                                 "post_user": post_user,
@@ -160,12 +161,15 @@ def get_thread_posts(thread_html):
                                 "post_message": post_message,
                                 "file_url" : file_url,
                                 "file_name": file_name,})
-    
+    # except:
+    #     print("An exception occurred with: " + str(post))
+
     return posts['reply']
 
 def get_thread(threads):
     
     for thread in threads:
+        # try:
         # parse url 
         parsed_url = urlparse(thread['url'])
         #local function variables
@@ -176,7 +180,8 @@ def get_thread(threads):
         soup = BeautifulSoup(html, 'html.parser') 
         thread_html = soup.find_all(attrs={'class': 'thread'})[0] 
         thread.update({"thread_id" : thread_id, "thread_board" : thread_board, "thread_posts" : get_thread_posts(thread_html)})
-
+        # except:
+        #     print("An exception occurred with: " + str(thread['url']))
     return thread
 
 def main():
