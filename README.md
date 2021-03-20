@@ -4,13 +4,40 @@ i use this to routinely (cronjob) collect the latest bump thread, which i then c
 
 # 4chan-scraper
 basically changed graysonpikes code to scrape only original post data in a board and return this as json
+or scrape a thread and return all its info as json
+
+
 
 # Usage
-4chan-scraper.py [boardA,boardB...] 
+
+4chan-scraper.py [-h] {board,thread} ...
+
+positional arguments:
+  {board,thread}
+    board         the board[s] you want to get info about
+    thread        the thread[s] you want to get files/replies from
+
+subarguments board:
+  
+  --name [NAME ...], -n [NAME ...]
+                        name the boards you want to get info about
 
 e.g.
 
-4chan-scraper.py wsg tv v
+4chan-scraper.py board --name wsg tv v
+
+subarguments thread:
+  
+  --url [URL ...], -u [URL ...]
+                        thread urls you want to get data from
+  --file [FILE ...], -f [FILE ...]
+                        use this if you if you have threads stored in a json file like so: {"threads" : [{"url": <thread_url>}]}
+                        
+e.g.
+
+4chan-scraper.py thread --file .\recent-bump-threads.json .\recent-bump-threads2.json --url https://yuki.la/wsg/2147319#p2169090 https://boards.4channel.org/wsg/thread/3768662
+
+
 
 # 4chan-thread-collector
 monitors and logs url status of threads, if dead it'll replace the url with a yuki.la archive one
