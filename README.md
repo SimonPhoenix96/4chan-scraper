@@ -26,6 +26,8 @@ e.g.
 
 4chan-scraper.py board --name wsg tv v
 
+
+
 subarguments thread:
   
   --url [URL ...], -u [URL ...]
@@ -37,6 +39,31 @@ e.g.
 
 4chan-scraper.py thread --file .\recent-bump-threads.json .\recent-bump-threads2.json --url https://yuki.la/wsg/2147319#p2169090 https://boards.4channel.org/wsg/thread/3768662
 
+{"threads": [
+  {
+   "thread_id": "2047443",
+   "thread_board": "wsg",
+   "thread_posts": [
+    {
+     "post_type": "op",
+     "post_user": "Anonymous",
+     "post_user_id": "none",
+     "post_date": "01/04/18(Thu)19:21:12",
+     "post_number": "2047443",
+     "post_message": " Come share an [experience] with us",
+     "file_url": "https://ii.yuki.la/d/65/8cd320aaab678b70f9d8dbf1c239af2784d192846797f2da3cb54fd5710b665d.webm",
+     "file_name": "[space makes me feel lone(...).webm"
+    },
+    {
+     "post_type": "reply",
+     "post_user": "Anonymous",
+     "post_user_id": "none",
+     "post_date": "01/04/18(Thu)19:21:49",
+     "post_number": "2047446",
+     "post_message": " >>2047443\n",
+     "file_url": "https://ii.yuki.la/0/49/b3c8b854226d0edd288ef752e84e93fc85c7632a0f8473b2b9bb2bb30057f490.webm",
+     "file_name": "[sweater weather by no se(...).webm"
+    }]}
 
 
 # 4chan-thread-collector
