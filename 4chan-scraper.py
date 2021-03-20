@@ -150,7 +150,7 @@ def get_thread_posts(thread_html):
                     if quotelink != None:
                         line = quotelink.group(1).replace("&gt;&gt;", ">>") + "\n"
                     
-                    post_message = post_message + ''.join(line)
+                    post_message = post_message + ''.join(line).replace("\u2019", "'")
 
         posts['reply'].append({ "post_type" : post_type,
                                 "post_user": post_user,
