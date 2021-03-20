@@ -33,22 +33,22 @@ def log_thread(urls, threads_save_path)-> dict():
             for thread in data['threads']:
                 # compare url with logged ones, if dead replace link with yuki_archive_url
                 if thread['url'] == url:
-                    print("found thread in local threads.json, replace with yuki archive link")
+                    print("found thread in local .json, replace with yuki archive link")
                     yuki_archive_url = 'https://yuki.la/' + thread_board + '/' +  thread_id + '#' + thread_id    
                     thread['url'] = yuki_archive_url
                     thread_replaced = True
             if not thread_replaced:
-                print("did not found thread in local threads.json, add to local threads.json")
+                print("did not found thread in local .json, add to local .json")
                 data['threads'].append({'url': url})
 
         else:
             print("thread alive!")
             for thread in data['threads']:
                 if thread['url'] == url:
-                    print("thread found in local threads.json, dont add to local thread.json")
+                    print("thread found in local .json, dont add to local thread.json")
                     thread_exists_locally = True
             if thread_exists_locally == False:
-                print("thread not found in local threads.json, add to local thread.json")
+                print("thread not found in local .json, add to local thread.json")
                 data['threads'].append({'url': url})
 
     return data
@@ -61,7 +61,7 @@ def main():
         empty_data = {"threads": []}
         with open(threads_save_path, 'w') as json_file:
             json.dump(empty_data, json_file)
-
+        
     # collect already logged alive threads 
     with open(threads_save_path) as f:
         data = json.load(f)
@@ -80,7 +80,7 @@ def main():
     # get changed log data 
     changed_data = dict()
     changed_data = log_thread(collected_threads, threads_save_path)
-    print(json.dumps(changed_data, indent=1))
+    
     # write changes to local file
     if data != changed_data:
         print("writing changes to local file")
@@ -88,9 +88,5 @@ def main():
             json.dump(changed_data, json_file)
     else:
         print("no change!")
-    
-    # check for thread passed through command line
-    # log_thread(scraped_thread_url, threads_save_path, thread_id, thread_board)
-
 
 main()
