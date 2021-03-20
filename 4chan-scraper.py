@@ -98,87 +98,87 @@ def get_thread_posts(thread_html):
     op_post_parsed = False
     
     for post in thread_html:
-        # try:
-        # # fileText html parsing 
-        file_html =  post.find(attrs={'class': 'fileText'})
-        file_url = ""
-        file_name = ""
+        try:
+            # # fileText html parsing 
+            file_html =  post.find(attrs={'class': 'fileText'})
+            file_url = ""
+            file_name = ""
 
-        if file_html != None:
-            file_url = sub("//", "https://", file_html.find("a").get('href'))
-            file_name = file_html.find("a").contents[0]
+            if file_html != None:
+                file_url = sub("//", "https://", file_html.find("a").get('href'))
+                file_name = file_html.find("a").contents[0]
+            
+            
+            # # postInfo html parsing
+            if not op_post_parsed or post.find(attrs={'class': 'post op'}) != None:
+                # # op html parsing
+                post_html = post.find(attrs={'class': 'post op'})
+                op_post_parsed = True
+                post_type = "op"
+
+            else: 
+                # # reply html parsing
+                post_html = post.find(attrs={'class': 'post reply'})
+                post_type = "reply"
+
+            post_user = " "
+            post_user_id = " "
+            post_date = " "
+            post_number = " "
+            post_message = " "
         
-        
-        # # postInfo html parsing
-        if not op_post_parsed or post.find(attrs={'class': 'post op'}) != None:
-            # # op html parsing
-            post_html = post.find(attrs={'class': 'post op'})
-            op_post_parsed = True
-            post_type = "op"
-
-        else: 
-            # # reply html parsing
-            post_html = post.find(attrs={'class': 'post reply'})
-            post_type = "reply"
-
-        post_user = " "
-        post_user_id = " "
-        post_date = " "
-        post_number = " "
-        post_message = " "
-    
-        # # get postinfo
-        if post_html != None:
+            # # get postinfo
+            if post_html != None:
 
 
-            # Extract Post Info
-            post_info =  post_html.find(attrs={'class': 'postInfo desktop'})
-            # print(post_info.find(attrs={'class': 'name'}))
-            post_number =  post_info.find('input').get('name') or "none"
-            post_date =  post_info.find(attrs={'class': 'dateTime'}).contents[0] or "none"
-            
-            # this handles users with trips
-            temp_post_info = post_info.find(attrs={'class': 'name'}).contents
-            if len(temp_post_info) != 0:
-                post_user = post_info.find(attrs={'class': 'name'}).contents[0]
-            else:
-                post_user = post_info.find(attrs={'class': 'postertrip'}).contents[0]
-            
-            # some boards dont have user ids, this handles em
-            temp_post_user_id = post_info.find(attrs={'class': 'hand'})
-            if temp_post_user_id == None:
-                post_user_id =  "none"
-            else:
-                post_user_id =  post_info.find(attrs={'class': 'hand'}).contents[0]
-            
-            # Extract Post Message
-            temp_post_message = post_html.find(attrs={'class': 'postMessage'}) or "none"
-            len_post_message = len(temp_post_message)
-            # if len_post_message == 0:
-            #     # no message
-            #     post_message = " "
-            # else:
-                # message
-            for line in temp_post_message.contents:
-                # print(line)
-                quotelink = re.search('">(.*)</a>', str(line))
-                # print(quotelink)
-
-                if quotelink != None:
-                    line = quotelink.group(1).replace("&gt;&gt;", ">>") + "\n"
+                # Extract Post Info
+                post_info =  post_html.find(attrs={'class': 'postInfo desktop'})
+                # print(post_info.find(attrs={'class': 'name'}))
+                post_number =  post_info.find('input').get('name') or "none"
+                post_date =  post_info.find(attrs={'class': 'dateTime'}).contents[0] or "none"
                 
-                post_message = post_message + ''.join(str(line)).replace("\u2019", "'").replace('<span class="quote">&gt;', ">").replace('<br/>', "\n").replace('</span>', "")
+                # this handles users with trips
+                temp_post_info = post_info.find(attrs={'class': 'name'}).contents
+                if len(temp_post_info) != 0:
+                    post_user = post_info.find(attrs={'class': 'name'}).contents[0]
+                else:
+                    post_user = post_info.find(attrs={'class': 'postertrip'}).contents[0]
+                
+                # some boards dont have user ids, this handles em
+                temp_post_user_id = post_info.find(attrs={'class': 'hand'})
+                if temp_post_user_id == None:
+                    post_user_id =  "none"
+                else:
+                    post_user_id =  post_info.find(attrs={'class': 'hand'}).contents[0]
+                
+                # Extract Post Message
+                temp_post_message = post_html.find(attrs={'class': 'postMessage'}) or "none"
+                len_post_message = len(temp_post_message)
+                # if len_post_message == 0:
+                #     # no message
+                #     post_message = " "
+                # else:
+                    # message
+                for line in temp_post_message.contents:
+                    # print(line)
+                    quotelink = re.search('">(.*)</a>', str(line))
+                    # print(quotelink)
 
-        posts['reply'].append({ "post_type" : post_type,
-                                "post_user": post_user,
-                                "post_user_id": post_user_id,
-                                "post_date": post_date,
-                                "post_number": post_number,
-                                "post_message": post_message,
-                                "file_url" : file_url,
-                                "file_name": file_name,})
-        # except:
-        #     print("An exception occurred with: " + str(post))
+                    if quotelink != None:
+                        line = quotelink.group(1).replace("&gt;&gt;", ">>") + "\n"
+                    
+                    post_message = post_message + ''.join(str(line)).replace("\u2019", "'").replace('<span class="quote">&gt;', ">").replace('<br/>', "\n").replace('</span>', "")
+
+            posts['reply'].append({ "post_type" : post_type,
+                                    "post_user": post_user,
+                                    "post_user_id": post_user_id,
+                                    "post_date": post_date,
+                                    "post_number": post_number,
+                                    "post_message": post_message,
+                                    "file_url" : file_url,
+                                    "file_name": file_name,})
+        except:
+            print("An exception occurred with: " + str(post))
 
     return posts['reply']
 
@@ -186,19 +186,19 @@ def get_thread(threads_urls):
     threads = {}
     threads['threads'] = []
     for thread in threads_urls:
-        # try:
-        # parse url 
-        parsed_url = urlparse(thread['url'])
-        #local function variables
-        thread_id = parsed_url.path.split('/')[-1]
-        thread_board = parsed_url.path.split('/')[1]
-        # web request
-        html = requests.get(thread['url']).text
-        soup = BeautifulSoup(html, 'html.parser') 
-        thread_html = soup.find_all(attrs={'class': 'thread'})[0] 
-        threads['threads'].append({"thread_id" : thread_id, "thread_board" : thread_board, "thread_posts" : get_thread_posts(thread_html)})
-        # except:
-        #     print('{"Exception" : "An exception occurred with: ' + str(thread['url']) + '"}' )
+        try:
+            # parse url 
+            parsed_url = urlparse(thread['url'])
+            #local function variables
+            thread_id = parsed_url.path.split('/')[-1]
+            thread_board = parsed_url.path.split('/')[1]
+            # web request
+            html = requests.get(thread['url']).text
+            soup = BeautifulSoup(html, 'html.parser') 
+            thread_html = soup.find_all(attrs={'class': 'thread'})[0] 
+            threads['threads'].append({"thread_id" : thread_id, "thread_board" : thread_board, "thread_posts" : get_thread_posts(thread_html)})
+        except:
+            print('{"Exception" : "An exception occurred with: ' + str(thread['url']) + '"}' )
     return threads
 
 def main():
