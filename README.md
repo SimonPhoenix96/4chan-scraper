@@ -36,7 +36,7 @@ subarguments thread:
 e.g.
 
 4chan-scraper.py thread --file .\recent-bump-threads.json .\recent-bump-threads2.json --url https://yuki.la/wsg/2147319#p2169090 https://boards.4channel.org/wsg/thread/3768662
-
+```json
 {"threads": 
 [
   {
@@ -64,7 +64,7 @@ e.g.
      "file_url": "https://ii.yuki.la/0/49/b3c8b854226d0edd288ef752e84e93fc85c7632a0f8473b2b9bb2bb30057f490.webm",
      "file_name": "[sweater weather by no se(...).webm"
     }]}
-
+```
 
 # 4chan-thread-collector
 monitors and logs url status of threads, if dead it'll replace the url with a yuki.la archive one
