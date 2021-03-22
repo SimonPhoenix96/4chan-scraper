@@ -1,12 +1,10 @@
 # General (need python 3.8+ for argparse's extend action, if you want to use an older python version change this yourself)
 
-i use this to routinely (cronjob) collect the latest bump thread, which i then collect in a file and upload to my github, so that users of my webm-bump-loader can automatically get the latest bump thread url 
+i use this to routinely (cronjob) collect the latest bump thread, which i then collect in a file and upload to my github, so that users of my [webm-bump-loader](https://github.com/SimonPhoenix96/mpv-userscripts/tree/master/webm-bump-loader) can automatically get the latest bump thread url 
 
 # 4chan-scraper
 basically changed graysonpikes code to scrape only original post data in a board and return this as json
 or scrape a thread and return all its info as json
-
-
 
 # Usage
 
