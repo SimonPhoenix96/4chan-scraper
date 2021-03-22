@@ -37,11 +37,13 @@ e.g.
 
 4chan-scraper.py thread --file .\recent-bump-threads.json .\recent-bump-threads2.json --url https://yuki.la/wsg/2147319#p2169090 https://boards.4channel.org/wsg/thread/3768662
 
-{"threads": [
+{"threads": 
+[
   {
    "thread_id": "2047443",
    "thread_board": "wsg",
-   "thread_posts": [
+   "thread_posts": 
+   [
     {
      "post_type": "op",
      "post_user": "Anonymous",
