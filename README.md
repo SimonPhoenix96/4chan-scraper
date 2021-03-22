@@ -10,8 +10,8 @@ or scrape a thread and return all its info as json
 
 4chan-scraper.py [-h] {board,thread} ...
 
-positional arguments:
-  {board,thread}
+positional arguments {board,thread}:
+
     board         the board[s] you want to get info about
     thread        the thread[s] you want to get files/replies from
 
